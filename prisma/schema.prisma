@@ -52,7 +52,7 @@ model User {
 model Game {
   id          String     @id @default(cuid())
   userId      String
-  timeStarted DateTime
+   timeStarted DateTime @default(now()) 
   topic       String
   timeEnded   DateTime?
   gameType    GameType

@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Question } from "@prisma/client";
+
 type Props = {
   questions: Question[];
 };
@@ -30,45 +31,63 @@ const QuestionsList = ({ questions }: Props) => {
           )}
         </TableRow>
       </TableHeader>
-      <TableBody>
-        <>
-          {questions.map(
-            (
-              { answer, question, userAnswer, percentageCorrect, isCorrect },
-              index
-            ) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell>
-                    {question} <br />
-                    <br />
-                    <span className="font-semibold">{answer}</span>
-                  </TableCell>
-                  {questions[0].questionType === "open_ended" ? (
-                    <TableCell className={`font-semibold`}>
-                      {userAnswer}
-                    </TableCell>
-                  ) : (
-                    <TableCell
-                      className={`${
-                        isCorrect ? "text-green-600" : "text-red-600"
-                      } font-semibold`}
-                    >
-                      {userAnswer}
-                    </TableCell>
-                  )}
 
-                  {percentageCorrect && (
-                    <TableCell className="text-right">
-                      {percentageCorrect}
-                    </TableCell>
-                  )}
-                </TableRow>
-              );
-            }
-          )}
-        </>
+      <TableBody>
+        {questions.map(
+          (
+            {
+              answer,
+              question,
+              userAnswer,
+              percentageCorrect,
+              isCorrect,
+              questionType,
+            },
+            index
+          ) => {
+            // 🌟 CONDITIONAL COLORS
+            const openEndedColor =
+              percentageCorrect !== null && percentageCorrect !== undefined
+                ? percentageCorrect === 100
+                  ? "text-green-600"
+                  : "text-red-600"
+                : "text-black";
+
+            const mcqColor = isCorrect ? "text-green-600" : "text-red-600";
+
+            return (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{index + 1}</TableCell>
+
+                {/* Question + Correct Answer */}
+                <TableCell>
+                  {question}
+                  <br />
+                  <br />
+                  <span className="font-semibold text-green-700">
+                    {answer}
+                  </span>
+                </TableCell>
+
+                {/* USER ANSWER COLOR */}
+                <TableCell
+                  className={`font-semibold ${
+                    questionType === "open_ended" ? openEndedColor : mcqColor
+                  }`}
+                >
+                  {userAnswer ?? "—"}
+                </TableCell>
+
+                {/* PERCENTAGE (for open-ended only) */}
+                {questionType === "open_ended" && (
+                  <TableCell className="text-right">
+                    {percentageCorrect ?? "—"}
+                  </TableCell>
+                )}
+              </TableRow>
+            );
+          }
+        )}
       </TableBody>
     </Table>
   );

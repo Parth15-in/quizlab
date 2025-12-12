@@ -4,14 +4,15 @@ import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
 export const runtime = "nodejs";
-export const maxDuration = 500;
+export const maxDuration = 300;
+
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { amount, topic, type } = getQuestionsSchema.parse(body);
 
-    console.log("📩 Generating questions:", { amount, topic, type });
+    console.log(" Generating questions:", { amount, topic, type });
 
     let questions: any[] = [];
 
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
 
         : `Generate ONE medium-difficulty fill-in-the-blank question about ${topic}.
 
-           🔒 STRICT RULES FOR BLANK FORMAT:
+            STRICT RULES FOR BLANK FORMAT:
            - The question MUST contain EXACTLY ONE blank.
            - The blank MUST be written as: "______"
            - DO NOT create two blanks or variations like "____", "_________".
@@ -70,7 +71,7 @@ export async function POST(req: Request) {
           }
     );
 
-    console.log("✅ AI returned:", questions);
+    console.log(" AI returned:", questions);
 
     if (!Array.isArray(questions) || questions.length === 0) {
       return NextResponse.json(
@@ -82,7 +83,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ questions }, { status: 200 });
 
   } catch (error) {
-    console.error("❌ /api/questions ERROR:", error);
+    console.error(" /api/questions ERROR:", error);
 
     if (error instanceof ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });

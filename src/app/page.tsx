@@ -15,12 +15,12 @@ export default async function Home() {
       <Card className="w-[380px] shadow-lg rounded-2xl border border-gray-200">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-semibold text-gray-800">
-            Welcome to Quizlab
+            Welcome to QuizLab
           </CardTitle>
         </CardHeader>
 
         <CardDescription className="text-center text-gray-600 text-base leading-relaxed px-6">
-          Quizlab is a quiz app that allows you to create and share quizzes with your friends.
+          QuizLab is an interactive quiz platform that lets you create, play, and explore quizzes with ease.
         </CardDescription>
 
         <CardContent>

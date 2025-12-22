@@ -205,10 +205,12 @@ export async function POST(req: Request) {
     });
 
     // ✅ CORRECT AXIOS CALL (ABSOLUTE URL)
-    const baseUrl = process.env.NEXTAUTH_URL;
+    let baseUrl = process.env.APP_URL;
 
     if (!baseUrl) {
-      throw new Error("NEXTAUTH_URL is missing");
+      // Fallback to the current request's origin if APP_URL is missing
+      const url = new URL(req.url);
+      baseUrl = `${url.protocol}//${url.host}`;
     }
 
     const { data } = await axios.post(

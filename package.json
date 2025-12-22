@@ -27,6 +27,7 @@
     "clsx": "^2.1.1",
     "d3-cloud": "^1.2.7",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.23.26",
     "groq-sdk": "^0.35.0",
     "keyword-extractor": "^0.0.28",
     "lightningcss-wasm": "^1.30.2",

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useTheme } from "next-themes";
+
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -22,7 +22,7 @@ const fontSizeMapper = (word: Word) =>
   Math.log2(word.value) * 5 + 16;
 
 const CustomWordCloud = ({ formattedTopics }: Props) => {
-  const { theme } = useTheme();
+
   const router = useRouter();
 
   if (!formattedTopics || formattedTopics.length === 0) {
@@ -42,7 +42,7 @@ const CustomWordCloud = ({ formattedTopics }: Props) => {
         fontSize={fontSizeMapper}
         rotate={0}
         padding={10}
-        fill={theme === "dark" ? "white" : "black"}
+        fill={"black"}
         // ✅ FIXED HERE — react-d3-cloud gives (event, word)
         onWordClick={(_event, word) => {
           router.push("/quiz?topic=" + word.text);

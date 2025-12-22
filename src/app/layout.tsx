@@ -61,13 +61,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body
-        className={`${inter.variable} ${sourceCodePro.variable} antialiased min-h-screen pt-16`}
+        className={`${inter.variable} ${sourceCodePro.variable} antialiased min-h-screen pt-16 bg-background text-foreground`}
       >
         <Providers>
           <Navbar />

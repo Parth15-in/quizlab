@@ -5,16 +5,16 @@ import { redirect } from 'next/navigation';
 import { prisma } from "@/lib/db";
 
 
-interface Props {}
+interface Props { }
 
 export const RecentActivities = async (props: Props) => {
   const session = await getAuthSession();
-  
+
   if (!session?.user) {
-    redirect('/');  
+    redirect('/');
   }
   const gamesCount = await prisma.game.count({
-    where:{userId:session.user.id}
+    where: { userId: session.user.id }
 
   })
   return (
@@ -22,7 +22,7 @@ export const RecentActivities = async (props: Props) => {
       <CardHeader>
         <CardTitle className="text-2xl font-bold">Recent Activities</CardTitle>
         <CardDescription>
-          You have Played total of {gamesCount} games 
+          You have Played total of {gamesCount} games
         </CardDescription>
       </CardHeader>
 

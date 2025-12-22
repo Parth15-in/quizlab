@@ -1,15 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import SignInButton from "@/components/ui/signinButton";
+import SignInButton from "@/components/ui/SignInButton";
 import { getAuthSession } from "@/lib/nextauth";
-import {redirect} from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 export default async function Home() {
-  const session =await getAuthSession();
-  if(session?.user)
-  {
+  const session = await getAuthSession();
+  if (session?.user) {
     //That means the user is logged in 
-   return redirect ("/dashboard");
+    return redirect("/dashboard");
   }
   return (
     <div className="flex items-center justify-center h-screen bg-gray-50">

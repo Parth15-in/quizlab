@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useTheme } from "next-themes";
+
 import { useRouter } from "next/navigation";
 
 const WordCloudComponent = dynamic<any>(
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export default function WordCloud({ formattedTopics }: Props) {
-  const { theme } = useTheme();
+
   const router = useRouter();
 
   // 🟡 Show message if no data
@@ -41,7 +41,7 @@ export default function WordCloud({ formattedTopics }: Props) {
           rotations: 0,
           rotationAngles: [0],
           fontSizes: [18, 60],
-          colors: [theme === "dark" ? "white" : "black"],
+          colors: ["black"],
         }}
         onWordClick={(word: { text: string }) => {
           router.push("/quiz?topic=" + word.text);

@@ -15,7 +15,7 @@ const BlankAnswerInput = ({ answerWithBlanks }: Props) => {
             {index < answerWithBlanks.split(blank).length - 1 && (
               <input
                 data-blank-input
-                className="text-center border-b-2 border-black dark:border-white w-28 focus:border-2 focus:border-b-4 focus:outline-none"
+                className="text-center border-b-2 border-black w-28 focus:border-2 focus:border-b-4 focus:outline-none"
                 type="text"
               />
             )}

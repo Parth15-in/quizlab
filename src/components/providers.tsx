@@ -10,7 +10,7 @@ type ProvidersProps = { children?: React.ReactNode };
 const Providers: React.FC<ProvidersProps> = ({ children, ...props }: ThemeProviderProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <NextThemesProvider attribute="class" defaultTheme="light" enableSystem={false} {...props}>
+      <NextThemesProvider attribute="class" defaultTheme="system" enableSystem {...props}>
         <SessionProvider>{children}</SessionProvider>
       </NextThemesProvider>
     </QueryClientProvider>

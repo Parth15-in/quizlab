@@ -161,7 +161,7 @@ const OpenEnded = ({ game }: Props) => {
         <div className="flex flex-col">
           <p>
             <span className="text-slate-400">Topic</span> &nbsp;
-            <span className="px-2 py-1 text-white rounded-lg bg-[#0F1F3D]">
+            <span className="px-2 py-1 text-primary-foreground rounded-lg bg-primary">
               {game.topic}
             </span>
           </p>
@@ -195,7 +195,7 @@ const OpenEnded = ({ game }: Props) => {
 
         <div className="mt-8 flex justify-center">
           <Button
-            className="bg-[#0F1F3D] hover:bg-[#16284F] text-white px-6 py-2 rounded-lg"
+            className="px-6 py-2 rounded-lg"
             disabled={isChecking}
             onClick={handleNext}
           >

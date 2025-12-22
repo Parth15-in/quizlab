@@ -187,7 +187,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { topic, type, amount } = quizCreationSchema.parse(body);
 
-    // CREATE GAME ENTRY
+    // CREATE GAME
     const game = await prisma.game.create({
       data: {
         gameType: type,
@@ -197,20 +197,31 @@ export async function POST(req: Request) {
       },
     });
 
-    // TOPIC COUNT
+    // UPDATE TOPIC COUNT
     await prisma.topic_count.upsert({
       where: { topic },
       update: { count: { increment: 1 } },
       create: { topic, count: 1 },
     });
 
-    // ✅ FIXED: INTERNAL API CALL (NO API_URL)
+    // ✅ CORRECT AXIOS CALL (ABSOLUTE URL)
+    const baseUrl = process.env.NEXTAUTH_URL;
+
+    if (!baseUrl) {
+      throw new Error("NEXTAUTH_URL is missing");
+    }
+
     const { data } = await axios.post(
-      "/api/questions",
-      { amount, topic, type }
+      `${baseUrl}/api/questions`,
+      { amount, topic, type },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
 
-    const questions = data?.questions || [];
+    const questions = data?.questions ?? [];
 
     if (!questions.length) {
       return NextResponse.json(
@@ -223,7 +234,13 @@ export async function POST(req: Request) {
     if (type === "mcq") {
       const manyData = questions
         .map((q: any) => {
-          if (!q.question || !q.answer || !q.option1 || !q.option2 || !q.option3) {
+          if (
+            !q.question ||
+            !q.answer ||
+            !q.option1 ||
+            !q.option2 ||
+            !q.option3
+          ) {
             return null;
           }
 
@@ -252,7 +269,9 @@ export async function POST(req: Request) {
         );
       }
 
-      await prisma.question.createMany({ data: manyData as any[] });
+      await prisma.question.createMany({
+        data: manyData as any[],
+      });
     }
 
     // SAVE OPEN-ENDED QUESTIONS
@@ -278,6 +297,51 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       { error: "An unexpected server error occurred." },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req: Request) {
+  try {
+    const session = await getAuthSession();
+
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: "You must be logged in to fetch a game." },
+        { status: 401 }
+      );
+    }
+
+    const url = new URL(req.url);
+    const gameId = url.searchParams.get("gameId");
+
+    if (!gameId) {
+      return NextResponse.json(
+        { error: "gameId missing in query." },
+        { status: 400 }
+      );
+    }
+
+    const game = await prisma.game.findUnique({
+      where: { id: gameId },
+      include: { questions: true },
+    });
+
+    if (!game) {
+      return NextResponse.json(
+        { error: "Game not found." },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ game }, { status: 200 });
+
+  } catch (error) {
+    console.error("QUIZ GET ERROR:", error);
+
+    return NextResponse.json(
+      { error: "Unexpected server error." },
       { status: 500 }
     );
   }

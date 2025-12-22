@@ -3,7 +3,7 @@ import React from "react";
 
 import UserAccountNav from "./UserAccountNav";
 import { getAuthSession } from "@/lib/nextauth";
-import SignInButton from "@/components/ui/SignInButton";
+import SignInButton from "@/components/ui/signinButton";
 
 
 const Navbar = async () => {

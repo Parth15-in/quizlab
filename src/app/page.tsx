@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import SignInButton from "@/components/ui/SignInButton";
+import SignInButton from "@/components/ui/signinButton";
 import { getAuthSession } from "@/lib/nextauth";
 import { redirect } from 'next/navigation'
 
